@@ -26,7 +26,7 @@ router.get('/', function(req, res){
     MongoClient.connect(url, function(err, db) {
         if (err) throw err;
         const dbo = db.db("netdb");
-        dbo.collection("book").find({}).toArray(
+        dbo.collection("book").find().toArray(
         function(err, result) {
             if (err) throw err;
             res.json(result);
@@ -38,43 +38,52 @@ router.get('/', function(req, res){
 
 router.post('/', function(req,res){
 MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  const dbo = db.db("netdb");
-  dbo.collection("book").insertOne({
-    name:req.body.name,
-    author:req.body.author,
-    isbn:req.body.isbn
-  },
-  function(err, result) {
+    if (err) throw err;
+    const dbo = db.db("netdb");
+    dbo.collection("book").insertOne({
+      name:req.body.name,
+      author:req.body.author,
+      isbn:req.body.isbn
+    },
+    function(err, result) {
+        if (err) throw err;
+        res.json(result);
+        db.close();
+    });
+  });
+});
+router.put('/:isbn',function(req,res){
+  MongoClient.connect(url, function(err, db) {
       if (err) throw err;
-      res.json(result);
-      db.close();
-});
-});
-});
-
-
-router.delete('/:id', 
-function(request, response) {
-  book.delete(request.params.id, function(err, dbResult) {
-    if (err) {
-      response.json(err);
-    } else {
-      response.json(dbResult);
-    }
+      const dbo = db.db("netdb");
+      dbo.collection("book").updateOne({isbn:req.params.isbn},{$set:{
+        name:req.body.name,
+        author:req.body.author
+      }},
+      function(err, result) {
+          if (err) throw err;
+          res.json(result);
+          db.close();
+      });
+    });
   });
-});
+
+  router.delete('/:isbn',function(req,res){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        const dbo = db.db("netdb");
+        dbo.collection("book").deleteOne({
+          isbn:req.params.isbn
+        },
+        function(err, result) {
+            if (err) throw err;
+            res.json(result);
+            db.close();
+        });
+      });
+    });
 
 
-router.put('/:id', 
-function(request, response) {
-  book.update(request.params.id, request.body, function(err, dbResult) {
-    if (err) {
-      response.json(err);
-    } else {
-      response.json(dbResult);
-    }
-  });
-});
+
 
 module.exports = router;
