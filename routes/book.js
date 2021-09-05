@@ -2,12 +2,26 @@ const express = require('express');
 const router = express.Router();
 const book = require('../models/book_model');
 
-router.get('/:name', (req, res) => {
-  let MongoClient = require('mongodb').MongoClient;
-  const url='mongodb://localhost:27017';
+const MongoClient = require('mongodb').MongoClient
+const url = 'mongodb://localhost:27017';
+
+router.get('/', (req, res) => {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        const dbo = db.db("netdb");
+        dbo.collection("book").find({}).toArray(
+        function(err, result) {
+            if (err) throw err;
+            res.json(result);
+            db.close();
+        });
+    });
+});
+
+/* router.get('/:name', (req, res) => {
   MongoClient.connect(url, function(err, db) {
       if (err) throw err;
-      var dbo = db.db("netdb");
+      const dbo = db.db("netdb");
       dbo.collection("book").findOne({
           name: req.params.name
       }, 
@@ -17,7 +31,7 @@ router.get('/:name', (req, res) => {
           db.close();
       });
   });
-});
+}); */
 
 /* router.get('/:id?',
  function(request, response) {
