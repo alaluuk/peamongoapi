@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const book = require('../models/book_model');
+//const book = require('../models/book_model');
 
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017';
 
 
-/* router.get('/:name', (req, res) => {
+router.get('/:name', function(req, res) {
   MongoClient.connect(url, function(err, db) {
       if (err) throw err;
       const dbo = db.db("netdb");
@@ -19,7 +19,7 @@ const url = 'mongodb://localhost:27017';
           db.close();
       });
   });
-}); */
+}); 
 
 
 router.get('/', function(req, res){
