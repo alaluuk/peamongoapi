@@ -5,18 +5,6 @@ const book = require('../models/book_model');
 const MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://localhost:27017';
 
-router.get('/', (req, res) => {
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        const dbo = db.db("netdb");
-        dbo.collection("book").find({}).toArray(
-        function(err, result) {
-            if (err) throw err;
-            res.json(result);
-            db.close();
-        });
-    });
-});
 
 /* router.get('/:name', (req, res) => {
   MongoClient.connect(url, function(err, db) {
@@ -33,37 +21,36 @@ router.get('/', (req, res) => {
   });
 }); */
 
-/* router.get('/:id?',
- function(request, response) {
-  if (request.params.id) {
-    book.getById(request.params.id, function(err, dbResult) {
-      if (err) {
-        response.json(err);
-      } else {
-        response.json(dbResult);
-      }
+
+router.get('/', function(req, res){
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        const dbo = db.db("netdb");
+        dbo.collection("book").find({}).toArray(
+        function(err, result) {
+            if (err) throw err;
+            res.json(result);
+            db.close();
+        });
     });
-  } else {
-    book.getAll(function(err, dbResult) {
-      if (err) {
-        response.json(err);
-      } else {
-        response.json(dbResult);
-      }
-    });
-  }
-}); */
+});
 
 
-router.post('/', 
-function(request, response) {
-  book.add(request.body, function(err, dbResult) {
-    if (err) {
-      response.json(err);
-    } else {
-      response.json(request.body);
-    }
-  });
+router.post('/', function(req,res){
+MongoClient.connect(url, function(err, db) {
+  if (err) throw err;
+  const dbo = db.db("netdb");
+  dbo.collection("book").insertOne({
+    name:req.body.name,
+    author:req.body.author,
+    isbn:req.body.isbn
+  },
+  function(err, result) {
+      if (err) throw err;
+      res.json(result);
+      db.close();
+});
+});
 });
 
 
