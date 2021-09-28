@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const MongoClient = require('mongodb').MongoClient
+const MongoClient = require('mongodb').MongoClient;
+
 //const url = 'mongodb://localhost:27017';
 
 
-const url = 'mongodb+srv://netuser:vemLMmwNe36gG1ve@cluster0.pf0hf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+//const url = 'mongodb+srv://netuser:vemLMmwNe36gG1ve@cluster0.pf0hf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
-//const url =process.env.MONGODB_URI;
+const url =process.env.MONGODB_URI;
 
 router.get('/:name', function(req, res) {
   MongoClient.connect(url, function(err, db) {
