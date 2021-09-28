@@ -5,12 +5,13 @@ var logger = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const bookRouter = require('./routes/book');
 
 var app = express();
-
+require('dotenv').config();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
