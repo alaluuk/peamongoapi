@@ -8,8 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 
 //const url = 'mongodb+srv://netuser:vemLMmwNe36gG1ve@cluster0.pf0hf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
-//const url =process.env.MONGODB_URI;
-const url =System.getenv("MONGODB_URI");
+const url =  process.env.MONGODB_URI;
 
 router.get('/:name', function(req, res) {
   MongoClient.connect(url, function(err, db) {
