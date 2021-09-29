@@ -4,9 +4,14 @@ const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
 
 //const url = 'mongodb://localhost:27017';
-
-const url =  process.env.MONOGODB_URI;
-
+console.log(process.env.MONGO_URI);
+if(process.env.MONGO_URI !=undefined){
+  var url =  process.env.MONGO_URI;
+}
+else {
+  var url = 'mongodb://localhost:27017';
+}
+console.log(url);
 router.get('/:name', function(req, res) {
   MongoClient.connect(url, function(err, db) {
       if (err) throw err;
