@@ -5,9 +5,6 @@ const MongoClient = require('mongodb').MongoClient;
 
 //const url = 'mongodb://localhost:27017';
 
-
-//const url = 'mongodb+srv://netuser:vemLMmwNe36gG1ve@cluster0.pf0hf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-
 const url =  process.env.MONOGODB_URI;
 
 router.get('/:name', function(req, res) {
